@@ -2,3 +2,4 @@ venv
 myenv
 .pyc
 *.db
+*.pyc
