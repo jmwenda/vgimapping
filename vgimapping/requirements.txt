@@ -1,0 +1,5 @@
+Django==1.4
+-e git://github.com/JeffHeard/ga_ows.git@127313d2f606f9d85ef9f7b1fc32e840f8fd2148#egg=ga_ows-dev
+lxml==2.3.4
+psycopg2==2.4.5
+wsgiref==0.1.2
