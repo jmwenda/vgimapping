@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--http://localhost:8000/wfs/?service=wfs&request=GetFeature&version=2.0.0&typenames=services%3ATwitterPlace-->
+<ogr:FeatureCollection
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://ogr.maptools.org/ fd547aa8-0c91-4bec-aa4a-e3fcfc690cfc.xsd"
+     xmlns:ogr="http://ogr.maptools.org/"
+     xmlns:gml="http://www.opengis.net/gml">
+  <gml:boundedBy>
+    <gml:Box>
+      <gml:coord><gml:X>-122.4870014020123</gml:X><gml:Y>37.78699608380921</gml:Y></gml:coord>
+      <gml:coord><gml:X>-122.4466609784351</gml:X><gml:Y>37.80930927303542</gml:Y></gml:coord>
+    </gml:Box>
+  </gml:boundedBy>
+                                                                                              
+  <gml:featureMember>
+    <ogr:WFS_result fid="WFS_result.0">
+      <ogr:geometryProperty><gml:Polygon srsName="EPSG:4326"><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>-122.448291761514554,37.806393342442796 -122.446660978435091,37.792286750356617 -122.473525983931339,37.786996083809207 -122.487001402012297,37.789166659500154 -122.48176573002128,37.798594357681942 -122.47867582523871,37.805308315620749 -122.478075010417058,37.809309273035424 -122.473440153238712,37.808902405911631 -122.468719465376637,37.807478353323873 -122.464685423010806,37.805918645169854 -122.463054639931343,37.80476579623128 -122.456188184860864,37.805986459252601 -122.452669126633026,37.80666459665796 -122.448291761514554,37.806393342442796</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></ogr:geometryProperty>
+      <ogr:id>1</ogr:id>
+      <ogr:identifier>df51dec6f4ee2b2c</ogr:identifier>
+      <ogr:name>Presidio</ogr:name>
+      <ogr:full_name>Presidio, San Francisco</ogr:full_name>
+      <ogr:place_type>neighborhood</ogr:place_type>
+      <ogr:polylines>cfteFb|qjVubA{_@{q@gKzSabAvOcXkOqdBzLdE~qAkJb^z{CsBdoAmEiGsShN</ogr:polylines>
+      <ogr:country>US</ogr:country>
+      <ogr:attributes>&quot;162834:id&quot;: &quot;2202&quot;</ogr:attributes>
+      <ogr:url>http://api.twitter.com/1/geo/id/df51dec6f4ee2b2c.json</ogr:url>
+    </ogr:WFS_result>
+  </gml:featureMember>
+</ogr:FeatureCollection>

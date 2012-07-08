@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--http://localhost:8000/wfs/?service=wfs&request=GetFeature&version=2.0.0&typenames=services%3AUshahidiReport-->
+<ogr:FeatureCollection
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://ogr.maptools.org/ fe6dd174-6b6a-4536-931b-7843fb85c119.xsd"
+     xmlns:ogr="http://ogr.maptools.org/"
+     xmlns:gml="http://www.opengis.net/gml">
+  <gml:boundedBy>
+    <gml:Box>
+      <gml:coord><gml:X>-10.75561523416243</gml:X><gml:Y>6.334127690485999</gml:Y></gml:coord>
+      <gml:coord><gml:X>-10.75561523416243</gml:X><gml:Y>6.334127690485999</gml:Y></gml:coord>
+    </gml:Box>
+  </gml:boundedBy>
+                                                                                              
+  <gml:featureMember>
+    <ogr:WFS_result fid="WFS_result.0">
+      <ogr:geometryProperty><gml:Point srsName="EPSG:4326"><gml:coordinates>-10.75561523416243,6.334127690485999</gml:coordinates></gml:Point></ogr:geometryProperty>
+      <ogr:id>1</ogr:id>
+      <ogr:service_id>1</ogr:service_id>
+      <ogr:identifier>6806</ogr:identifier>
+      <ogr:user>system</ogr:user>
+      <ogr:title>CIBDAP Press Release</ogr:title>
+      <ogr:text>&lt;p&gt;In the wake of the ongoing border insecurity with Ivory-Coast and Liberia we would like to warn citizens of Liberia from harboring and encouraging any form of dissident group or insurgent. This statement by the Citizens Bureau of Liberia is in response to information emanating from street corners that there is a secret recruitment of former fighters to fight alongside those who are currently engaged in rebel activities in neighboring Ivory-Coast. This goes to folks who might be carrying on or supportive of this carnage, espicially to the youthful population most of whom lack the requisite skills needed for today job's market as a result of our own experience of the 14 years of brutal civil unrest. This is to say that Liberians should hold together and reject any form of action which got the propensity to endanger the peace and safety. Also, it reminds us about the past war-conditions, something which is detestable as war in Ivory-Coast is a threat to peace and stability in Liberia.&lt;/p&gt;\n&lt;p&gt;From this stand point we encourage the citizens of Liberia through their Bureau(CIBDAP) to report any information they know or hear about to the security sector relative to what is currently ongoing at the border, so as to provide the kind of atmosphere conducive for the peaceful citizens of Liberia, to live where they so desire as oppose to unprepared departure from one community in pursuit of a safety zone and to enable us co-exist with our neighbors in a peaceful manner and style.&lt;/p&gt;\n&lt;p&gt;Meanwhile we hailed the government of liberia for extraditing suspected Ivorians to their home country for investigation, which will serve as a deterrant for others who may desire to thread the same course and will aid in bringing to an end the diabolical situation. Having said this, we advance the following recommendations:&lt;/p&gt;\n&lt;p&gt;1. That government begins considering identifying EX-AFL soldiers under a special arrangement that will encourage them to join forces with the new AFL in combating any spill over of the situation, considering the porous border lines. This will also discourage the influence of war mongers, who may want to use cash to recruit them into rebel ranks.&lt;/p&gt;\n&lt;p&gt;2. Ex-fighters from various former fighting forces in Liberia could be relavent in the formulation of such group in combating this carnage, after thorough evaluation of their moral standing since they could be targeted by war-mongers for recruitment.&lt;/p&gt;\n&lt;p&gt;3. Involve traditional local leaders along with influential regional citizens in trouble areas, so as to talk to their people to come forward with any information relavent to those involve, thus puting the situation under control.&lt;/p&gt;\n&lt;p&gt;Best Regards,&lt;/p&gt;\n&lt;p&gt;John W. Kamma&lt;/p&gt;\n&lt;p&gt;Executive Director&lt;/p&gt;\n&lt;p&gt;CIBDAP/LNP&lt;/p&gt;</ogr:text>
+      <ogr:created>2012/07/07 16:54:16-10</ogr:created>
+      <ogr:modified>2012/07/07 16:54:17-10</ogr:modified>
+      <ogr:incident_mode>1</ogr:incident_mode>
+      <ogr:incident_active>1</ogr:incident_active>
+      <ogr:incident_verified>1</ogr:incident_verified>
+      <ogr:location_name></ogr:location_name>
+      <ogr:person_first></ogr:person_first>
+      <ogr:person_last></ogr:person_last>
+      <ogr:person_email></ogr:person_email>
+      <ogr:incident_photo></ogr:incident_photo>
+      <ogr:incident_video></ogr:incident_video>
+      <ogr:incident_news></ogr:incident_news>
+    </ogr:WFS_result>
+  </gml:featureMember>
+</ogr:FeatureCollection>

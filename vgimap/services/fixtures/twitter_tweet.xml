@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--http://localhost:8000/wfs/?service=wfs&request=GetFeature&version=2.0.0&typenames=services%3ATwitterTweet-->
+<ogr:FeatureCollection
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://ogr.maptools.org/ e4479cab-b082-49b1-89ed-6c5410cbad6e.xsd"
+     xmlns:ogr="http://ogr.maptools.org/"
+     xmlns:gml="http://www.opengis.net/gml">
+  <gml:boundedBy>
+    <gml:Box>
+      <gml:coord><gml:X>-122.4639129468938</gml:X><gml:Y>37.79594929759598</gml:Y></gml:coord>
+      <gml:coord><gml:X>-122.4639129468938</gml:X><gml:Y>37.79594929759598</gml:Y></gml:coord>
+    </gml:Box>
+  </gml:boundedBy>
+                                                                                              
+  <gml:featureMember>
+    <ogr:WFS_result fid="WFS_result.0">
+      <ogr:geometryProperty><gml:Point srsName="EPSG:4326"><gml:coordinates>-122.463912946893757,37.795949297595982</gml:coordinates></gml:Point></ogr:geometryProperty>
+      <ogr:id>1</ogr:id>
+      <ogr:service_id>2</ogr:service_id>
+      <ogr:identifier>42090496</ogr:identifier>
+      <ogr:user>masters212</ogr:user>
+      <ogr:title></ogr:title>
+      <ogr:text>Reminder: Blue Angels practice today http://t.co/L9JXJ2ee</ogr:text>
+      <ogr:created>2012/07/07 20:48:40-10</ogr:created>
+      <ogr:modified>2012/07/07 20:57:31-10</ogr:modified>
+      <ogr:place_id>1</ogr:place_id>
+      <ogr:twitter_user_id>1</ogr:twitter_user_id>
+      <ogr:favorited>1</ogr:favorited>
+      <ogr:possibly_sensitive>1</ogr:possibly_sensitive>
+      <ogr:retweeted>0</ogr:retweeted>
+      <ogr:retweet_count>12</ogr:retweet_count>
+      <ogr:source_id>1</ogr:source_id>
+      <ogr:annotations>sdf</ogr:annotations>
+      <ogr:in_reply_to_id>1</ogr:in_reply_to_id>
+      <ogr:in_reply_to_status_id_id>1</ogr:in_reply_to_status_id_id>
+    </ogr:WFS_result>
+  </gml:featureMember>
+</ogr:FeatureCollection>
