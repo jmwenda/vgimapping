@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from ga_ows.views.wfs import WFS
-from vgimap.myplaces import models as m
+from vgimap.services import models as m
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
