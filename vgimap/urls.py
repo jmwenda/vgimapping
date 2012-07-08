@@ -17,6 +17,6 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^wfs/?', WFS.as_view(
-        models=[m.event], # everything but this is optional.
+        models=[m.Event, m.UshahidiReport], # everything but this is optional.
     )),
 )
