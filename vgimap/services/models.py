@@ -5,7 +5,7 @@ class Event(models.Model):
     number = models.CharField("Glide Number",max_length=120)
     event = models.TextField("Event",null=False)
     comment = models.TextField("Comment",null=False)
-    the_geom = models.MultiPolygonField()
+    geom = models.MultiPolygonField()
     
     objects = models.GeoManager()
 
