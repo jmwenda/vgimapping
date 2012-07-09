@@ -4,17 +4,38 @@ from vgimap.services.models import Service,UshahidiReport,UshahidiCategory
 import requests
 from urlparse import urljoin
 import json
+import datetime
 
 extract = lambda keys, dict: reduce(lambda x, y: x.update({y[0]:y[1]}) or x,
                                             map(None, keys, map(dict.get, keys)), {})
-
+right_now = datetime.datetime.utcnow()
 def get_response(url):
     "This hits the api identified by the service and returns the response"
     try:
 	req = requests.get(url)
         return req
     except requests.exceptions.ConnectionError, e:
-        return e 
+        return e
+def update_categories(categories,service):
+    created_categories = []
+    for category in categories:
+        category,created = UshahidiCategory.objects.get_or_create(service=service,category_id=category['category']['id'],category_name=category['category']['title'])
+        created_categories.append(category)
+    return created_categories
+def update_reports(incident,service):
+    incident,created = UshahidiReport.objects.get_or_create(service=service,identifier=incident['incident']['incidentid'],incident_mode = incident['incident']['incidentmode']
+       ,created = right_now
+       ,incident_active = incident['incident']['incidentactive']
+       ,incident_verified = incident['incident']['incidentverified']
+       ,location_id = incident['incident']['locationid']
+       ,location_name = incident['incident']['locationname']
+       ,person_first = None
+       ,person_last = None
+       ,person_email = None
+       ,incident_photo = None
+       ,incident_video = None
+       ,incident_news = None)
+    return incident
 def fetch_service():
     #we get a list of services  to query,for a start just ushahidi, will add the other services as we progress
     #services = Service.objects.all()
@@ -28,7 +49,9 @@ def fetch_service():
             indicents = data['payload']['incidents']
             for incident in indicents:
                #to get the incident details use the dict 'incident' and categories use 'categories'
-               print incident
+               categories = incident['categories']
+               categories = update_categories(categories,service)
+               update_reports(incident,service)
                
             if response is not None:
                 service_response.append(response)
