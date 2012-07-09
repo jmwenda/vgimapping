@@ -7,11 +7,13 @@ def get_response(service):
     "This hits the api identified by the service and returns the response"
     try:
 	req = requests.get(service.url)
+        return req
     except requests.exceptions.ConnectionError, e:
-        return req 
+        return e 
 def fetch_service():
-    #we get a list of services  to query
-    services = Service.objects.all()
+    #we get a list of services  to query,for a start just twitter, will add the other services as we progress
+    #services = Service.objects.all()
+    services = Service.objects.filter(type='TWT')
     service_response = []
     for service in services:
        response = get_response(service)
@@ -25,4 +27,5 @@ class Command(BaseCommand):
     args = '[none]'
     def handle(self, *args, **keywordargs):
         service_response = fetch_service()
+        print service_response
 
