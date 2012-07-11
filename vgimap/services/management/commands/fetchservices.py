@@ -23,7 +23,7 @@ def update_categories(categories,service):
         category,created = UshahidiCategory.objects.get_or_create(service=service,category_id=category['category']['id'],category_name=category['category']['title'])
         created_categories.append(category)
     return created_categories
-def update_reports(incident,service):
+def update_reports(incident,service,categories):
     incident,created = UshahidiReport.objects.get_or_create(service=service,identifier=incident['incident']['incidentid'],incident_mode = incident['incident']['incidentmode']
        ,created = right_now
        ,incident_active = incident['incident']['incidentactive']
@@ -39,6 +39,7 @@ def update_reports(incident,service):
        ,incident_photo = None
        ,incident_video = None
        ,incident_news = None)
+    incident.incident_categories.add(*categories)
     return incident
 def fetch_service():
     #we get a list of services  to query,for a start just ushahidi, will add the other services as we progress
@@ -53,9 +54,9 @@ def fetch_service():
             indicents = data['payload']['incidents']
             for incident in indicents:
                #to get the incident details use the dict 'incident' and categories use 'categories'
-               categories = incident['categories']
-               categories = update_categories(categories,service)
-               update_reports(incident,service)
+               incident_categories = incident['categories']
+               categories = update_categories(incident_categories,service)
+               update_reports(incident,service,categories)
                
             if response is not None:
                 service_response.append(response)
