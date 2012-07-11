@@ -51,6 +51,9 @@ class UshahidiCategory(models.Model):
     category_id = models.IntegerField()
     category_name = models.CharField(max_length=100)
 
+    def __unicode__(self):
+        return self.category_name
+
 
 class UshahidiReport(ServiceRecord):
     incident_mode = models.IntegerField(null=True, blank=True)
