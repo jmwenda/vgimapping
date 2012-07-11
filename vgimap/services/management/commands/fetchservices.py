@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.contrib.gis.geos import Point
 from optparse import make_option
 from vgimap.services.models import Service,UshahidiReport,UshahidiCategory
 import requests
@@ -28,6 +29,9 @@ def update_reports(incident,service):
        ,incident_active = incident['incident']['incidentactive']
        ,incident_verified = incident['incident']['incidentverified']
        ,location_id = incident['incident']['locationid']
+       ,text = incident['incident']['incidentdescription']
+       ,title = incident['incident']['incidenttitle']
+       ,geom = Point(float(incident['incident']['locationlongitude']), float(incident['incident']['locationlatitude']))
        ,location_name = incident['incident']['locationname']
        ,person_first = None
        ,person_last = None
