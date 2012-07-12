@@ -14,9 +14,9 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'vgimap',                      # Or path to database file if using sqlite3.
-        'USER': 'vgimap',                      # Not used with sqlite3.
-        'PASSWORD': 'vgimap',                  # Not used with sqlite3.
+        'NAME': 'geodb',                      # Or path to database file if using sqlite3.
+        'USER': 'geodb',                      # Not used with sqlite3.
+        'PASSWORD': 'geodb',                  # Not used with sqlite3.
         'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
     }
@@ -102,6 +102,14 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
 ROOT_URLCONF = 'vgimap.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -124,6 +132,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'django.contrib.gis',
+    'haystack',
     'vgimap.services',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
