@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.gis.geos import Point
 from optparse import make_option
 from vgimap.services.models import Service,UshahidiReport,UshahidiCategory
-from vgimap.services.models import TwitterPlace,TwitterUser
+from vgimap.services.models import TwitterPlace,TwitterUser,TwitterTweet
 import requests
 from urlparse import urljoin
 import json
@@ -65,6 +65,26 @@ def store_twitteruser(screen_name):
     statuses_count = user.statuses_count
     )
     return twitter_user
+def process_hashtags(hashtags):
+    if hashtags is not None:
+       for hashtag in hashtags:
+           hashtag = TwitterHashtag.objects.get_create(hashtag=hashtag.hashtag)
+    return hashtags
+def process_urls(urls):
+    if urls is not None:
+       for url in urls:
+           url = TwitterUrl.objects.get_create(orig_url=url.orig_url,short_url=url.short_url)
+    return urls
+def process_tweet(status,place_id,service):
+    place = TwitterPlace.objects.get(identifier=place_id)
+    user = TwitterUser.objects.get(screen_name=status.user.screen_name)
+    geom = Point(float(status.geo['coordinates'][1]), float(status.geo['coordinates'][0]))
+    #import pdb;pdb.set_trace()
+    twitter_tweet = TwitterTweet.objects.get_or_create(service=service,place=place,twitter_user=user,
+    identifier = status.id,created=right_now,user = user.screen_name,text=status.text,geom = geom
+    )
+    #import pdb;pdb.set_trace()
+    return twitter_tweet
 def fetch_service():
     #we get a list of services  to query,for a start just ushahidi, will add the other services as we progress
     #services = Service.objects.all()
@@ -97,7 +117,10 @@ def fetch_service():
                 for status in searchresult:
                     screen_name = status.user.screen_name
                     user = store_twitteruser(screen_name)
-                    import pdb;pdb.set_trace()
+                    #with the new user we inspect the tweet to store hashtags and urls in the tweet
+                    process_hashtags(status.hashtags)
+                    process_urls(status.urls)
+                    process_tweet(status,place_id,service)
             
             
             
