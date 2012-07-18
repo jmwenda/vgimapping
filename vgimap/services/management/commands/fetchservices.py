@@ -2,10 +2,12 @@ from django.core.management.base import BaseCommand
 from django.contrib.gis.geos import Point
 from optparse import make_option
 from vgimap.services.models import Service,UshahidiReport,UshahidiCategory
+from vgimap.services.models import TwitterPlace,TwitterUser
 import requests
 from urlparse import urljoin
 import json
 import datetime
+import twitter
 
 extract = lambda keys, dict: reduce(lambda x, y: x.update({y[0]:y[1]}) or x,
                                             map(None, keys, map(dict.get, keys)), {})
@@ -41,10 +43,32 @@ def update_reports(incident,service,categories):
        ,incident_news = None)
     incident.incident_categories.add(*categories)
     return incident
+def store_twitteruser(screen_name):
+    api = twitter.Api()
+    user = api.GetUser(screen_name)
+    #we now create a twitter user for the vgiproject
+    twitter_user,created = TwitterUser.objects.get_or_create(identifier=user.id,screen_name=user.screen_name,
+    name = user.name,
+    location = user.location,
+    url = user.url,
+    lang = user.lang,
+    #time_zone = user.time_zone,
+    description = user.description,
+    profile_image_url = user.profile_image_url,
+    #created_at = user.created_at,
+    utc_offset = user.utc_offset,
+    followers_count = user.followers_count,
+    verified = user.verified,
+    geo_enabled = user.geo_enabled,
+    #notifications = user.notifications,
+    friends_count = user.friends_count,
+    statuses_count = user.statuses_count
+    )
+    return twitter_user
 def fetch_service():
     #we get a list of services  to query,for a start just ushahidi, will add the other services as we progress
     #services = Service.objects.all()
-    services = Service.objects.filter(type='USH')
+    services = Service.objects.filter(type='TWT')
     service_response = []
     for service in services:
         if service.type == 'USH':
@@ -60,6 +84,23 @@ def fetch_service():
                
             if response is not None:
                 service_response.append(response)
+        if service.type == 'TWT':
+            #import the twitter functions here
+            api = twitter.Api()
+            #we get the places from the places we are tracking
+            places = TwitterPlace.objects.all()
+            for place in places:
+                #we perfrom a search using the place id
+                place_id = place.identifier
+                api = twitter.Api()
+                searchresult = api.GetSearch("place:"+place_id)
+                for status in searchresult:
+                    screen_name = status.user.screen_name
+                    user = store_twitteruser(screen_name)
+                    import pdb;pdb.set_trace()
+            
+            
+            
     return service_response
 
 class Command(BaseCommand):
