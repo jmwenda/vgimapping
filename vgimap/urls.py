@@ -19,4 +19,5 @@ urlpatterns = patterns('',
     url(r'^wfs/?', WFS.as_view(
         models=[m.Event, m.UshahidiReport, m.TwitterTweet, m.TwitterPlace], # everything but this is optional.
     )),
+    url(r'^search/', include('haystack.urls')),
 )
