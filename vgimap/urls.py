@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from ga_ows.views.wfs import WFS
+from vgimap.services.wfs import TwitterWFSAdapter
 from vgimap.services import models as m
 
 # Uncomment the next two lines to enable the admin:
@@ -19,5 +20,6 @@ urlpatterns = patterns('',
     url(r'^wfs/?', WFS.as_view(
         models=[m.Event, m.UshahidiReport, m.TwitterTweet, m.TwitterPlace], # everything but this is optional.
     )),
+    url(r'^twitter_wfs/?', WFS.as_view(adapter=TwitterWFSAdapter())),
     url(r'^search/', include('haystack.urls')),
 )
