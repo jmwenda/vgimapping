@@ -4,6 +4,7 @@ from datetime import datetime
 
 from django.db import models
 from django.contrib.gis.db import models
+from django.contrib.gis.geos import Point
 
 class Event(models.Model):
     number = models.CharField("Glide Number",max_length=120)
@@ -160,11 +161,13 @@ class TwitterTweet(ServiceRecord):
     in_reply_to_status_id = models.ForeignKey('TwitterTweet', null=True, blank=True)
 
     def __unicode__(self):
-        return str("%s : %s" % (self.user, self.text))
+        return unicode("%s : %s" % (self.user, self.text))
 
     def save_tweet(self, status):
         self.service = Service.objects.filter(type='TWT')[0]
         self.identifier = status.id
         self.created = datetime.fromtimestamp(mktime(time.strptime(status.created_at, '%a %b %d %H:%M:%S  +0000 %Y')))
         self.text = status.text
+        if status.coordinates:
+            self.geom = Point(status.coordinates['coordinates'][0], status.coordinates['coordinates'][1])
         self.save()
