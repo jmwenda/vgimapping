@@ -34,7 +34,6 @@ class TwitterWFSAdapter(WFSAdapter):
     def AdHocQuery(self, request, params):
         type_names = params.cleaned_data['type_names'] # only support one type-name at a time (model) for now
         flt = params.cleaned_data['filter'] # filter should be in JSON 
-        flt_dict = json.loads(flt)
         bbox = params.cleaned_data['bbox'] 
         sort_by = params.cleaned_data['sort_by']
         count = params.cleaned_data['count']
@@ -44,19 +43,26 @@ class TwitterWFSAdapter(WFSAdapter):
         srs_name = params.cleaned_data['srs_name'] # assume bbox is in this
         srs_format = params.cleaned_data['srs_format'] # this can be proj, None (srid), srid, or wkt.
 
-        # Just a test
-        api = twitter.Api()
-        statuses = api.GetUserTimeline(flt_dict['user'])
-        status_ids = []
+        if flt:
+            flt_dict = json.loads(flt)
         
-        # Cache to the Database
-        for s in statuses:
-            try:
-                tweet = TwitterTweet.objects.get(identifier=s.id)
-            except ObjectDoesNotExist:
-                tweet = TwitterTweet()
-                tweet.save_tweet(s)
-            status_ids.append(tweet.identifier)
+            api = twitter.Api()
+            if 'user' in flt_dict:
+                statuses = api.GetUserTimeline(flt_dict['user'])
+            else:
+                statuses = api.GetPublicTimeline() 
+            status_ids = []
+        
+            # Cache to the Database
+            for s in statuses:
+                try:
+                    tweet = TwitterTweet.objects.get(identifier=s.id)
+                except ObjectDoesNotExist:
+                    tweet = TwitterTweet()
+                    tweet.save_tweet(s)
+                status_ids.append(tweet.identifier)
 
-        # Look back up in the DB and return the results
-        return TwitterTweet.objects.filter(identifier__in=status_ids)
+            # Look back up in the DB and return the results
+            return TwitterTweet.objects.filter(identifier__in=status_ids) # TODO Slice for paging
+        else:
+            return TwitterTweet.objects.all() # TODO slice for paging
