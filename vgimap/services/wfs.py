@@ -1,6 +1,8 @@
+from django.core.exceptions import ObjectDoesNotExist
 from ga_ows.views.wfs import WFSAdapter, FeatureDescription
 from vgimap.services.models import TwitterTweet
 import twitter
+import json
 
 class TwitterWFSAdapter(WFSAdapter):
     def __init__(self):
@@ -32,6 +34,7 @@ class TwitterWFSAdapter(WFSAdapter):
     def AdHocQuery(self, request, params):
         type_names = params.cleaned_data['type_names'] # only support one type-name at a time (model) for now
         flt = params.cleaned_data['filter'] # filter should be in JSON 
+        flt_dict = json.loads(flt)
         bbox = params.cleaned_data['bbox'] 
         sort_by = params.cleaned_data['sort_by']
         count = params.cleaned_data['count']
@@ -42,15 +45,15 @@ class TwitterWFSAdapter(WFSAdapter):
         srs_format = params.cleaned_data['srs_format'] # this can be proj, None (srid), srid, or wkt.
 
         # Just a test
-        # TODO use the specified filter rather than this hard-code
         api = twitter.Api()
-        statuses = api.GetUserTimeline('ortelius')
+        statuses = api.GetUserTimeline(flt_dict['user'])
         status_ids = []
         
         # Cache to the Database
         for s in statuses:
-            tweet = TwitterTweet.objects.get(identifier=s.id)
-            if tweet == None: 
+            try:
+                tweet = TwitterTweet.objects.get(identifier=s.id)
+            except ObjectDoesNotExist:
                 tweet = TwitterTweet()
                 tweet.save_tweet(s)
             status_ids.append(tweet.identifier)
