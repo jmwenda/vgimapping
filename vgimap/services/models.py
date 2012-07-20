@@ -1,3 +1,7 @@
+import time
+from time import mktime
+from datetime import datetime
+
 from django.db import models
 from django.contrib.gis.db import models
 
@@ -157,3 +161,10 @@ class TwitterTweet(ServiceRecord):
 
     def __unicode__(self):
         return str("%s : %s" % (self.user, self.text))
+
+    def save_tweet(self, status):
+        self.service = Service.objects.filter(type='TWT')[0]
+        self.identifier = status.id
+        self.created = datetime.fromtimestamp(mktime(time.strptime(status.created_at, '%a %b %d %H:%M:%S  +0000 %Y')))
+        self.text = status.text
+        self.save()
