@@ -5,6 +5,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
+from django.core.exceptions import ObjectDoesNotExist
 
 class Event(models.Model):
     number = models.CharField("Glide Number",max_length=120)
@@ -103,7 +104,6 @@ class TwitterPlace(models.Model):
     def __unicode__(self):
         return str('%s %s' % (self.identifier, self.name))
 
-
 class TwitterUser(models.Model):
     identifier = models.IntegerField()
     screen_name = models.CharField(max_length=100)
@@ -115,7 +115,6 @@ class TwitterUser(models.Model):
     description = models.TextField(null=True, blank=True)
     profile_image_url = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(null=True, blank=True)
-    url = models.URLField(null=True, blank=True)
     utc_offset = models.IntegerField(null=True, blank=True)
     followers_count = models.PositiveIntegerField(default=0)
     verified = models.BooleanField(default=False)
@@ -162,7 +161,6 @@ class TwitterTweet(ServiceRecord):
 
     def __unicode__(self):
         return unicode("%s : %s" % (self.user, self.text))
-
     def save_tweet(self, status):
         self.service = Service.objects.filter(type='TWT')[0]
         self.identifier = status.id
@@ -171,4 +169,10 @@ class TwitterTweet(ServiceRecord):
         self.text = status.text
         if status.coordinates:
             self.geom = Point(status.coordinates['coordinates'][0], status.coordinates['coordinates'][1])
+        if status.place is not None:
+            #we get the twitter place
+            try:
+                self.place = TwitterPlace.objects.get(identifier=status.place['id'])
+            except ObjectDoesNotExist:
+                self.place = TwitterPlace.objects.create(identifier=status.place['id'])
         self.save()
