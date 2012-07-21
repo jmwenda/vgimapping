@@ -105,7 +105,7 @@ class TwitterPlace(models.Model):
         return str('%s %s' % (self.identifier, self.name))
 
 class TwitterUser(models.Model):
-    identifier = models.IntegerField()
+    identifier = models.CharField(max_length=100)
     screen_name = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=100, null=True, blank=True)
@@ -175,4 +175,10 @@ class TwitterTweet(ServiceRecord):
                 self.place = TwitterPlace.objects.get(identifier=status.place['id'])
             except ObjectDoesNotExist:
                 self.place = TwitterPlace.objects.create(identifier=status.place['id'])
+        if status.user:
+            try:
+                self.twitter_user = TwitterUser.objects.get(screen_name=status.user.screen_name)
+            except ObjectDoesNotExist:
+                self.twitter_user = TwitterUser.objects.create(screen_name=status.user.screen_name)
+        #if status.hashtags:
         self.save()
