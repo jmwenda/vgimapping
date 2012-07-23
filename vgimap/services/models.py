@@ -5,6 +5,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
+from django.contrib.contenttypes import generic
 
 class Event(models.Model):
     number = models.CharField("Glide Number",max_length=120)
@@ -172,3 +173,39 @@ class TwitterTweet(ServiceRecord):
         if status.coordinates:
             self.geom = Point(status.coordinates['coordinates'][0], status.coordinates['coordinates'][1])
         self.save()
+
+
+# OSM Classes
+
+class OsmObject(ServiceRecord):
+    version = models.IntegerField()
+    changeset_id = models.IntegerField()
+    visible = models.BooleanField()
+
+    class Meta:
+        abstract = True
+
+
+class OsmNode(OsmObject):
+    pass
+
+
+class OsmWay(ServiceRecord):
+    nodes = models.ManyToManyField(OsmNode)
+
+
+class OsmNodeTag(models.Model):
+    node = models.ForeignKey(OsmNode)
+    k = models.TextField()
+    v = models.TextField()
+
+    def __unicode__(self):
+        return u"%s (%s: %s)" % (self.node.identifier, self.k, self.v)
+
+class OsmWayTag(models.Model):
+    way = models.ForeignKey(OsmWay)
+    k = models.TextField()
+    v = models.TextField()
+
+    def __unicode__(self):
+        return u"%s (%s: %s)" % (self.way.identifier, self.k, self.v)
