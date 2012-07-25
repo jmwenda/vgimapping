@@ -5,7 +5,11 @@ from datetime import datetime
 from django.db import models
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
+<<<<<<< HEAD
 from django.core.exceptions import ObjectDoesNotExist
+=======
+from django.contrib.contenttypes import generic
+>>>>>>> a8e2880dd30a99f3c206f2927cce33d60bf2ab37
 
 class Event(models.Model):
     number = models.CharField("Glide Number",max_length=120)
@@ -182,3 +186,39 @@ class TwitterTweet(ServiceRecord):
                 self.twitter_user = TwitterUser.objects.create(screen_name=status.user.screen_name)
         #if status.hashtags:
         self.save()
+
+
+# OSM Classes
+
+class OsmObject(ServiceRecord):
+    version = models.IntegerField()
+    changeset_id = models.IntegerField()
+    visible = models.BooleanField()
+
+    class Meta:
+        abstract = True
+
+
+class OsmNode(OsmObject):
+    pass
+
+
+class OsmWay(ServiceRecord):
+    nodes = models.ManyToManyField(OsmNode)
+
+
+class OsmNodeTag(models.Model):
+    node = models.ForeignKey(OsmNode)
+    k = models.TextField()
+    v = models.TextField()
+
+    def __unicode__(self):
+        return u"%s (%s: %s)" % (self.node.identifier, self.k, self.v)
+
+class OsmWayTag(models.Model):
+    way = models.ForeignKey(OsmWay)
+    k = models.TextField()
+    v = models.TextField()
+
+    def __unicode__(self):
+        return u"%s (%s: %s)" % (self.way.identifier, self.k, self.v)
