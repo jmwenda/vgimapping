@@ -3,7 +3,7 @@ from django.contrib.gis import admin
 from vgimap.services.models import Event, Service
 from vgimap.services.models import UshahidiCategory, UshahidiReport
 from vgimap.services.models import TwitterPlace, TwitterUser, TwitterUrl, TwitterTweet, TwitterHashtag
-from vgimap.services.models import OsmNode, OsmNodeTag, OsmWay
+from vgimap.services.models import OsmNode, OsmNodeTag, OsmWay,OsmWayTag
 
 admin.site.register(Event,admin.OSMGeoAdmin)
 admin.site.register(Service)
