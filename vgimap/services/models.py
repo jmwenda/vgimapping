@@ -5,11 +5,8 @@ from datetime import datetime
 from django.db import models
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
-<<<<<<< HEAD
 from django.core.exceptions import ObjectDoesNotExist
-=======
 from django.contrib.contenttypes import generic
->>>>>>> a8e2880dd30a99f3c206f2927cce33d60bf2ab37
 
 class Event(models.Model):
     number = models.CharField("Glide Number",max_length=120)
