@@ -7,3 +7,4 @@ requests
 -e git+https://github.com/toastdriven/django-haystack.git#egg=django-haystack
 -e git+https://github.com/toastdriven/pyelasticsearch.git#egg=pyelasticsearch
 python-twitter
+lxml
