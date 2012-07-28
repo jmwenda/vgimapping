@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+<ShortName>VGIMapping</ShortName>
+<Description>VGI Mapping</Description>
+<Url type="text/html" template="http://localhost:8000/search/?q={searchTerms}&l={geo:locationString?}&format=rss"/>
+   <LongName>VGI Mapping Search</LongName>
+   <Attribution>
+       Search data Copyright 2005, Example.com, Inc., All Rights Reserved
+   </Attribution>
+   <SyndicationRight>open</SyndicationRight>
+   <Language>en-us</Language>
+   <OutputEncoding>UTF-8</OutputEncoding>
+   <InputEncoding>UTF-8</InputEncoding>
+</OpenSearchDescription>
