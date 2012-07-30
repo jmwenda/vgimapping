@@ -36,6 +36,6 @@ def search(request):
     #perfrom search and return results set from the different services
     osm_results = search_osm(search_criteria)
     #we get a json dataset that needs to be made into opengeosearch capable
-    return HttpResponse(etree.tostring(osm_results, pretty_print=True))
+    return HttpResponse(etree.tostring(osm_results, pretty_print=True,xml_declaration=True))
 
 
