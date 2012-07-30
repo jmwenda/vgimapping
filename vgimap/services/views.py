@@ -22,10 +22,21 @@ def open_search(data):
     root = etree.ElementTree(element=feed)
     #remember we have a list here from data which returns the properties as a list
     for item in data:
+        #we create an  entry for every item
+        entry = etree.Element('entry')
         #we create the identifier element
         identifier = etree.Element('id')
         identifier.text = str(item['data']['id'])
-        feed.append(identifier)
+        name = etree.Element('title')
+        name.text = item['data']['tag']['name']
+        entry.append(identifier)
+        entry.append(name)
+        # having problems with the lxml namespaces. Will deal with this later
+        pointNS = { 'georss' : 'georss'}
+        point = etree.Element("{georss}point",nsmap = pointNS)
+        point.text = str(item['data']['lat']) + ' ' + str(item['data']['lon'])
+        entry.append(point)
+        feed.append(entry)
     return root
     
 def search_osm(search_criteria):
