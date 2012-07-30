@@ -18,8 +18,14 @@ def open_search(data):
     # need to do the name space map
     NSMAP = {"opensearch" : 'http://a9.com/-/spec/opensearch/1.1/',
          "georss" : 'http://www.georss.org/georss'}
-    feed = etree.Element('feed',xmlns="http://www.w3.org/2005/Atom")
+    feed = etree.Element('feed',xmlns='http://www.w3.org/2005/Atom')
     root = etree.ElementTree(element=feed)
+    #remember we have a list here from data which returns the properties as a list
+    for item in data:
+        #we create the identifier element
+        identifier = etree.Element('id')
+        identifier.text = str(item['data']['id'])
+        feed.append(identifier)
     return root
     
 def search_osm(search_criteria):
