@@ -22,6 +22,7 @@ urlpatterns = patterns('',
         models=[m.Event, m.UshahidiReport, m.TwitterTweet, m.TwitterPlace], # everything but this is optional.
     )),
     url(r'^twitter_wfs/?', WFS.as_view(adapter=TwitterWFSAdapter())),
-    url(r'^search/', include('haystack.urls')),
+    #url(r'^search/', include('haystack.urls')),
+    url(r'^search/','vgimap.services.views.search'),
     url(r'^opensearch/','vgimap.services.views.opensearch')
 )
