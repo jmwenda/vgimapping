@@ -44,6 +44,9 @@ def search_osm(search_criteria):
     #we do need to have some bbox validation
     if search_criteria['bbox'] is not None:
         fetch_path = "/api/interpreter?data=node[name~'"+ search_criteria['search_term']+"']("+ search_criteria['bbox']+");out;"
+    elif search_criteria['radius'] is not None:
+        #need to confirm a coulpe of aspects about this,especially radius querying
+        fetch_path = "/api/interpreter?data=node[name~'"+ search_criteria['search_term']+"'](around:"+ search_criteria['radius']+");out;"
     else:
         fetch_path = "/api/interpreter?data=node[name~'"+ search_criteria['search_term']+"'];out;"
     url = urllib.quote(fetch_path,'?/=')
@@ -58,6 +61,7 @@ def search(request):
     search_criteria = {}
     search_criteria ['search_term'] = request.GET.get('q', '')
     search_criteria ['bbox'] = request.GET.get('bbox')
+    search_criteria ['radius'] = request.GET.get('radius')
     #perfrom search and return results set from the different services
     osm_results = search_osm(search_criteria)
     #we get a json dataset that needs to be made into opengeosearch capable
