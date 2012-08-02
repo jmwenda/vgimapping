@@ -41,7 +41,7 @@ def open_search(data):
     return root
     
 def search_osm(search_criteria):
-    fetch_path = "/api/interpreter?data=node[name='"+ search_criteria['search_term']+"'];out;"
+    fetch_path = "/api/interpreter?data=node[name~'"+ search_criteria['search_term']+"'];out;"
     url = urllib.quote(fetch_path,'?/=')
     data = api._get(url)
     data = api.ParseOsm(data)
