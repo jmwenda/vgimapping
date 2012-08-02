@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import Context, loader
 import OsmApi
 from lxml import etree
+import urllib
 
 api = OsmApi.OsmApi(api = "www.overpass-api.de")
 
@@ -40,7 +41,9 @@ def open_search(data):
     return root
     
 def search_osm(search_criteria):
-    data  = api._get("/api/interpreter?data=node%5Bname%3D"+ search_criteria['search_term'] +"%5D%3Bout%3B")
+    fetch_path = "/api/interpreter?data=node[name='"+ search_criteria['search_term']+"'];out;"
+    url = urllib.quote(fetch_path,'?/=')
+    data = api._get(url)
     data = api.ParseOsm(data)
     #build the opensearcg geo response object
     open_search_response  = open_search(data) 
@@ -50,6 +53,7 @@ def search_osm(search_criteria):
 def search(request):
     search_criteria = {}
     search_criteria ['search_term'] = request.GET.get('q', '')
+    search_criteria ['bbox'] = request.GET.get('bbox','')
     #perfrom search and return results set from the different services
     osm_results = search_osm(search_criteria)
     #we get a json dataset that needs to be made into opengeosearch capable
