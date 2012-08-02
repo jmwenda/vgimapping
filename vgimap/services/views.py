@@ -41,7 +41,11 @@ def open_search(data):
     return root
     
 def search_osm(search_criteria):
-    fetch_path = "/api/interpreter?data=node[name~'"+ search_criteria['search_term']+"'];out;"
+    #we do need to have some bbox validation
+    if search_criteria['bbox'] is not None:
+        fetch_path = "/api/interpreter?data=node[name~'"+ search_criteria['search_term']+"']("+ search_criteria['bbox']+");out;"
+    else:
+        fetch_path = "/api/interpreter?data=node[name~'"+ search_criteria['search_term']+"'];out;"
     url = urllib.quote(fetch_path,'?/=')
     data = api._get(url)
     data = api.ParseOsm(data)
@@ -53,7 +57,7 @@ def search_osm(search_criteria):
 def search(request):
     search_criteria = {}
     search_criteria ['search_term'] = request.GET.get('q', '')
-    search_criteria ['bbox'] = request.GET.get('bbox','')
+    search_criteria ['bbox'] = request.GET.get('bbox')
     #perfrom search and return results set from the different services
     osm_results = search_osm(search_criteria)
     #we get a json dataset that needs to be made into opengeosearch capable
