@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.gis.geos import Point
 from ga_ows.views.wfs import WFSAdapter, FeatureDescription
-from vgimap.services.models import TwitterTweet,UshahidiReport
+from vgimap.services.models import TwitterTweet,UshahidiReport,Service,UshahidiCategory
 import twitter
 import json
 from urlparse import urljoin
@@ -89,10 +89,10 @@ class UshahidiWFSAdapter(WFSAdapter):
 
         return [FeatureDescription(
                 ns=namespace,
-                ns_name="tweets",
-                name="tweets",
-                abstract="twitter tweets",
-                title="twitter tweets",
+                ns_name="reports",
+                name="incidents",
+                abstract="ushahidi reports",
+                title="ushahidi reports",
                 keywords=[],
                 srs="EPSG:4326",
                 bbox=[-180,-90,180,90],
@@ -105,7 +105,12 @@ class UshahidiWFSAdapter(WFSAdapter):
     def get_features(self, request, params):
         # Can eventually support stored queries here
         return self.AdHocQuery(request, params)
-    
+    def update_categories(self,categories,service):
+        created_categories = []
+        for category in categories:
+            category,created = UshahidiCategory.objects.get_or_create(service=service,category_id=category['category']['id'],category_name=category['category']['title'])
+        created_categories.append(category)
+        return created_categories
 
     def AdHocQuery(self, request, params):
         type_names = params.cleaned_data['type_names'] # only support one type-name at a time (model) for now
@@ -124,8 +129,9 @@ class UshahidiWFSAdapter(WFSAdapter):
 
             if 'service' in flt_dict:
                 #we get the service from the db, create it if it does not exists
-                ushahidireport = UshahidiReport.objects.get(service__name=flt_dict['service']) #todo create when the service does not exist
-                service = ushahidireport.service
+                service = Service.objects.get(name=flt_dict['service'])
+                #ushahidireport = UshahidiReport.objects.get(service__name=flt_dict['service']) #todo create when the service does not exist
+                #service = ushahidireport.service
                 #we now fetch the reports into a dictionary
                 url = urljoin(service.url,'api?task=incidents')
                 response = get_response(url)
@@ -145,6 +151,10 @@ class UshahidiWFSAdapter(WFSAdapter):
                              ,location_name = incident['incident']['locationname'],person_first = None,person_last = None,person_email = None
                              ,incident_photo = None,incident_video = None,incident_news = None)
                     report.save(report)
+                    #import pdb;pdb.set_trace()
+                    categories = self.update_categories(incident['categories'],service)
+                    report.incident_categories.add(*categories)
+                    #report.save(report)
                 reports_ids.append(incident['incident']['incidentid'])
 
             # Look back up in the DB and return the results
