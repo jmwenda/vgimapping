@@ -1,13 +1,20 @@
 # Create your views here
 from django.http import HttpResponse
 from django.template import Context, loader
+from vgimap.services.models import Service
 import OsmApi
 import math
 from lxml import etree
 import urllib
+import requests
+from urlparse import urljoin
+import re
+import json
 
 api = OsmApi.OsmApi(api = "www.overpass-api.de")
 
+DOCTYPE = '<?xml version="1.0" encoding="UTF-8"?>'
+XMLNS = 'http://docs.openstack.org/identity/api/v2.0'
 
 def opensearch(request):
     response = HttpResponse(mimetype='application/opensearchdescription+xml')
@@ -77,7 +84,68 @@ def search_osm(search_criteria):
     #build the opensearcg geo response object
     open_search_response  = open_search(data) 
     return open_search_response
-    
+
+def get_response(url):
+    "This hits the api identified by the service and returns the response"
+    try:
+        req = requests.get(url)
+        return req
+    except requests.exceptions.ConnectionError, e:
+        return e
+
+def serialize(d):
+    """Serialize a dictionary to XML, this is mainly for Ushahidi that is proving troublesome"""
+    #assert len(d.keys()) == 1, 'Cannot encode more than one root element'
+    # name the root dom element
+    name = d.keys()[0]
+
+    # only the root dom element gets an xlmns, TODO(dolph): ... I think?
+    root = etree.Element(name)
+
+    populate_element(root, d[name])
+
+    # TODO(dolph): we don't actually need to pretty print for real clients
+    # TODO(dolph): i think there's a way to get a doctype from lxml?
+    return '%s\n%s' % (DOCTYPE, etree.tostring(root, pretty_print=True))
+
+def populate_element(element, d):
+    """Populates an etree with the given dictionary"""
+    for k, v in d.iteritems():
+        if type(v) is dict:
+            # serialize the child dictionary
+            child = etree.Element(k)
+            populate_element(child, v)
+            element.append(child)
+        elif type(v) is list:
+            # serialize the child list
+            # TODO(dolph): this is where the spec has a LOT of inconsistency, but this covers 80% of it
+            if k[-1] == 's':
+                name = k[:-1]
+            else:
+                name = k
+
+            for item in v:
+                child = etree.Element(name)
+                populate_element(child, item)
+                element.append(child)
+        else:
+            # add attributes to the current element
+            element.set(k, unicode(v))
+
+def search_ushahidi(search_criteria):
+    #we perform the search to the ushahidi api
+    if search_criteria['bbox'] is not None:
+        #todo confirm if we are searching against all ushahidi instances registered as services
+        service = Service.objects.get(type='USH')
+        bbox_list = re.sub(r'\s', '', search_criteria['bbox']).split(',')
+        sw = bbox_list[1]+','+bbox_list[0]
+        ne = bbox_list[3]+','+bbox_list[2] 
+        url = urljoin(service.url,'api?task=incidents&by=bounds&sw='+ sw + '&ne='+ne+'&c')
+        response = get_response(url) #put this all into one method once i confirm a couple of things
+        data = response.json
+        #indicents = data['payload']['incidents']
+    return data
+ 
 
 def search(request):
     search_criteria = {}
@@ -86,9 +154,16 @@ def search(request):
     search_criteria ['radius'] = request.GET.get('radius')
     search_criteria ['lat'] = request.GET.get('lat')
     search_criteria ['lon'] = request.GET.get('lon')
+    '''Please note: One for now has to to turn on if its osm or ushahidi they want to search, TODO: allow for both to be searched,adjust the search method
+    and the return to see both searches'''
     #perfrom search and return results set from the different services
-    osm_results = search_osm(search_criteria)
+    #osm_results = search_osm(search_criteria)
+    #perform search results for ushahidi
+    ushahidi_results = search_ushahidi(search_criteria)
+    serialized_results = serialize(ushahidi_results)
+    serialized_results = etree.fromstring(serialized_results)
     #we get a json dataset that needs to be made into opengeosearch capable
-    return HttpResponse(etree.tostring(osm_results, pretty_print=True,xml_declaration=True))
+    #return HttpResponse(etree.tostring(osm_results, pretty_print=True,xml_declaration=True))
+    return HttpResponse(etree.tostring(serialized_results, pretty_print=True,xml_declaration=True),content_type='application/xml')
 
 
