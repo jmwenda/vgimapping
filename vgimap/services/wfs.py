@@ -42,7 +42,7 @@ class TwitterWFSAdapter(WFSAdapter):
         start_index = params.cleaned_data['start_index']
         srs_name = params.cleaned_data['srs_name'] # assume bbox is in this
         srs_format = params.cleaned_data['srs_format'] # this can be proj, None (srid), srid, or wkt.
-
+        
         if flt:
             flt_dict = json.loads(flt)
         
@@ -52,7 +52,6 @@ class TwitterWFSAdapter(WFSAdapter):
             else:
                 statuses = api.GetPublicTimeline() 
             status_ids = []
-        
             # Cache to the Database
             for s in statuses:
                 try:
@@ -66,3 +65,6 @@ class TwitterWFSAdapter(WFSAdapter):
             return TwitterTweet.objects.filter(identifier__in=status_ids) # TODO Slice for paging
         else:
             return TwitterTweet.objects.all() # TODO slice for paging
+class UshahidiWFSAdapter(WFSAdapter):
+    def __init__(self):
+        pass
