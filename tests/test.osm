@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="Overpass API">
+<note>The data included in this document is from www.openstreetmap.org. It has there been collected by a large group of contributors. For individual attribution of each item please refer to http://www.openstreetmap.org/api/0.6/[node|way|relation]/#id/history </note>
+<meta osm_base="2012-07-23T15:55:02Z"/>
+
+  <way id="26577114">
+    <nd ref="291435953"/>
+    <nd ref="1751820952"/>
+    <nd ref="291435954"/>
+    <nd ref="1751820953"/>
+    <nd ref="1751820954"/>
+    <nd ref="1751820955"/>
+    <nd ref="291435955"/>
+    <tag k="highway" v="residential"/>
+    <tag k="lit" v="yes"/>
+    <tag k="name" v="Rhedenstraße"/>
+  </way>
+  <way id="26577115">
+    <nd ref="1558201814"/>
+    <nd ref="291435956"/>
+    <tag k="highway" v="residential"/>
+    <tag k="name" v="Von-Ketteler-Straße"/>
+  </way>
+  <way id="26577275">
+    <nd ref="291438870"/>
+    <nd ref="1647096049"/>
+    <nd ref="1579451712"/>
+    <nd ref="1558201822"/>
+    <nd ref="1558201815"/>
+    <tag k="highway" v="residential"/>
+    <tag k="name" v="Mutter-Barat-Straße"/>
+  </way>
+  <way id="26577276">
+    <nd ref="291438871"/>
+    <nd ref="291438872"/>
+    <nd ref="1647095991"/>
+    <nd ref="1647095994"/>
+    <nd ref="291438873"/>
+    <tag k="highway" v="residential"/>
+    <tag k="lit" v="yes"/>
+    <tag k="name" v="Stegerwaldstraße"/>
+  </way>
+  <way id="31347483">
+    <nd ref="1558201825"/>
+    <nd ref="96133774"/>
+    <nd ref="1647008854"/>
+    <nd ref="1558201826"/>
+    <nd ref="1558201827"/>
+    <nd ref="96133775"/>
+    <nd ref="1558201829"/>
+    <nd ref="1558201831"/>
+    <nd ref="96133776"/>
+    <nd ref="1558201832"/>
+    <nd ref="291438874"/>
+    <nd ref="1558201836"/>
+    <nd ref="96133777"/>
+    <nd ref="291089398"/>
+    <nd ref="96133778"/>
+    <nd ref="32346787"/>
+    <nd ref="291089396"/>
+    <nd ref="291092263"/>
+    <nd ref="33078442"/>
+    <tag k="highway" v="residential"/>
+    <tag k="lit" v="yes"/>
+    <tag k="name" v="Alte Schulstraße"/>
+  </way>
+  <way id="39300712">
+    <nd ref="470930364"/>
+    <nd ref="1212226113"/>
+    <nd ref="470930365"/>
+    <tag k="name" v="Alaunbach"/>
+    <tag k="waterway" v="stream"/>
+  </way>
+  <way id="105196611">
+    <nd ref="1212226149"/>
+    <nd ref="1212226142"/>
+    <nd ref="1212226027"/>
+    <nd ref="1212226049"/>
+    <nd ref="1212226071"/>
+    <nd ref="1212226149"/>
+    <tag k="building" v="garages"/>
+  </way>
+  <way id="105196614">
+    <nd ref="1212226065"/>
+    <nd ref="1212226220"/>
+    <tag k="highway" v="service"/>
+  </way>
+  <way id="105196615">
+    <nd ref="1212226068"/>
+    <nd ref="1212226149"/>
+    <nd ref="1212226071"/>
+    <nd ref="1212226197"/>
+    <nd ref="1212226165"/>
+    <nd ref="1212226068"/>
+    <tag k="addr:city" v="Bonn"/>
+    <tag k="addr:country" v="DE"/>
+    <tag k="addr:housenumber" v="21a"/>
+    <tag k="addr:postcode" v="53229"/>
+    <tag k="addr:street" v="Von-Ketteler-Straße"/>
+    <tag k="building" v="yes"/>
+  </way>
+  <way id="105196617">
+    <nd ref="1212226067"/>
+    <nd ref="1212226047"/>
+    <nd ref="1212226166"/>
+    <nd ref="1212226180"/>
+    <nd ref="1212226130"/>
+    <nd ref="1212226067"/>
+    <tag k="addr:city" v="Bonn"/>
+    <tag k="addr:country" v="DE"/>
+    <tag k="addr:housenumber" v="23"/>
+    <tag k="addr:postcode" v="53229"/>
+    <tag k="addr:street" v="Von-Ketteler-Straße"/>
+    <tag k="building" v="yes"/>
+  </way>
+  <way id="105196618">
+    <nd ref="1212226110"/>
+    <nd ref="1212226181"/>
+    <nd ref="1212226107"/>
+    <nd ref="1212226030"/>
+    <nd ref="1212226125"/>
+    <nd ref="1212226091"/>
+    <nd ref="1212226208"/>
+    <nd ref="1212226044"/>
+    <nd ref="1212226127"/>
+    <nd ref="1212226203"/>
+    <nd ref="1212226085"/>
+    <nd ref="1212226052"/>
+    <nd ref="1212226042"/>
+    <nd ref="1212226061"/>
+    <nd ref="1212226038"/>
+    <nd ref="1212226190"/>
+    <nd ref="1212226139"/>
+    <nd ref="1212226110"/>
+    <tag k="amenity" v="school"/>
+    <tag k="name" v="Marktschule"/>
+  </way>
+  <way id="105196620">
+    <nd ref="1212226196"/>
+    <nd ref="1212226130"/>
+    <nd ref="1212226180"/>
+    <nd ref="1212226040"/>
+    <nd ref="1212226035"/>
+    <nd ref="1212226196"/>
+    <tag k="building" v="garages"/>
+  </way>
+  <way id="105196621">
+    <nd ref="1212226041"/>
+    <nd ref="1212226090"/>
+    <nd ref="1212226171"/>
+    <nd ref="1212226020"/>
+    <nd ref="1212226041"/>
+    <tag k="addr:city" v="Bonn"/>
+    <tag k="addr:country" v="DE"/>
+    <tag k="addr:housenumber" v="23a"/>
+    <tag k="addr:postcode" v="53229"/>
+    <tag k="addr:street" v="Von-Ketteler-Straße"/>
+    <tag k="building" v="yes"/>
+  </way>
+  <way id="105196625">
+    <nd ref="1212226133"/>
+    <nd ref="1212226104"/>
+    <nd ref="1212226043"/>
+    <nd ref="1212226192"/>
+    <nd ref="1212226133"/>
+    <tag k="addr:city" v="Bonn"/>
+    <tag k="addr:country" v="DE"/>
+    <tag k="addr:housenumber" v="23b"/>
+    <tag k="addr:postcode" v="53229"/>
+    <tag k="addr:street" v="Von-Ketteler-Straße"/>
+    <tag k="building" v="yes"/>
+  </way>
+  <way id="105196626">
+    <nd ref="1212226028"/>
+    <nd ref="1212226024"/>
+    <nd ref="1212226031"/>
+    <nd ref="1212226159"/>
+    <nd ref="1212226131"/>
+    <nd ref="1212226069"/>
+    <nd ref="1212226028"/>
+    <tag k="building" v="yes"/>
+    <tag k="leisure" v="sports_centre"/>
+    <tag k="sport" v="multi"/>
+  </way>
+  <way id="105196629">
+    <nd ref="1212226087"/>
+    <nd ref="1212226026"/>
+    <nd ref="1212226144"/>
+    <nd ref="1212226184"/>
+    <nd ref="1212226087"/>
+    <tag k="building" v="garages"/>
+  </way>
+  <way id="142380554">
+    <nd ref="1558201831"/>
+    <nd ref="291438870"/>
+    <tag k="highway" v="footway"/>
+    <tag k="name" v="Mutter-Barat-Straße"/>
+  </way>
+  <way id="142380557">
+    <nd ref="1558201823"/>
+    <nd ref="1558201815"/>
+    <nd ref="1558201810"/>
+    <nd ref="1558201808"/>
+    <nd ref="1558201806"/>
+    <nd ref="1558201807"/>
+    <nd ref="1558201809"/>
+    <nd ref="1647096076"/>
+    <nd ref="1558201814"/>
+    <nd ref="1751820951"/>
+    <nd ref="1647096079"/>
+    <nd ref="291435953"/>
+    <nd ref="1558201813"/>
+    <nd ref="1558201812"/>
+    <tag k="highway" v="residential"/>
+    <tag k="lit" v="yes"/>
+    <tag k="name" v="Von-Ketteler-Straße"/>
+  </way>
+  <way id="142380558">
+    <nd ref="1558201806"/>
+    <nd ref="291435957"/>
+    <nd ref="1212226220"/>
+    <nd ref="291435958"/>
+    <nd ref="291435959"/>
+    <nd ref="1212226021"/>
+    <tag k="bicycle" v="yes"/>
+    <tag k="foot" v="yes"/>
+    <tag k="highway" v="service"/>
+    <tag k="motorcar" v="private"/>
+    <tag k="motorcycle" v="private"/>
+    <tag k="name" v="Von-Ketteler-Straße"/>
+  </way>
+
+</osm>
