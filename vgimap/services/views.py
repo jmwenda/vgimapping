@@ -1,5 +1,6 @@
 # Create your views here
 from django.http import HttpResponse
+from django.shortcuts import render_to_response
 from django.template import Context, loader
 from vgimap.services.models import Service
 import OsmApi
@@ -82,8 +83,9 @@ def search_osm(search_criteria):
     data = api._get(url)
     data = api.ParseOsm(data)
     #build the opensearcg geo response object
-    open_search_response  = open_search(data) 
-    return open_search_response
+    #open_search_response  = open_search(data) 
+    #return open_search_response
+    return data
 
 def get_response(url):
     "This hits the api identified by the service and returns the response"
@@ -134,16 +136,19 @@ def populate_element(element, d):
 
 def search_ushahidi(search_criteria):
     #we perform the search to the ushahidi api
+    #todo confirm if we are searching against all ushahidi instances registered as services
+    service = Service.objects.get(type='USH')
     if search_criteria['bbox'] is not None:
-        #todo confirm if we are searching against all ushahidi instances registered as services
-        service = Service.objects.get(type='USH')
-        bbox_list = re.sub(r'\s', '', search_criteria['bbox']).split(',')
+        #bbox_list = re.sub(r'\s', '', search_criteria['bbox']).split(',')
         sw = bbox_list[1]+','+bbox_list[0]
         ne = bbox_list[3]+','+bbox_list[2] 
         url = urljoin(service.url,'api?task=incidents&by=bounds&sw='+ sw + '&ne='+ne+'&c')
-        response = get_response(url) #put this all into one method once i confirm a couple of things
-        data = response.json
-        #indicents = data['payload']['incidents']
+    else:
+        url = urljoin(service.url,'api?task=incidents')
+
+    response = get_response(url) #put this all into one method once i confirm a couple of things
+    data = response.json
+    #indicents = data['payload']['incidents']
     return data
  
 
@@ -154,16 +159,22 @@ def search(request):
     search_criteria ['radius'] = request.GET.get('radius')
     search_criteria ['lat'] = request.GET.get('lat')
     search_criteria ['lon'] = request.GET.get('lon')
-    '''Please note: One for now has to to turn on if its osm or ushahidi they want to search, TODO: allow for both to be searched,adjust the search method
-    and the return to see both searches'''
+    if 'format' in request.GET:
+        format = request.GET.get('format')
+    else:
+        format = None
     #perfrom search and return results set from the different services
-    #osm_results = search_osm(search_criteria)
+    osm_results = search_osm(search_criteria)
     #perform search results for ushahidi
-    ushahidi_results = search_ushahidi(search_criteria)
-    serialized_results = serialize(ushahidi_results)
-    serialized_results = etree.fromstring(serialized_results)
+    #ushahidi_results = search_ushahidi(search_criteria)
+    #serialized_results = serialize(ushahidi_results)
+    #serialized_results = etree.fromstring(serialized_results)
     #we get a json dataset that needs to be made into opengeosearch capable
     #return HttpResponse(etree.tostring(osm_results, pretty_print=True,xml_declaration=True))
-    return HttpResponse(etree.tostring(serialized_results, pretty_print=True,xml_declaration=True),content_type='application/xml')
-
-
+    #return HttpResponse(etree.tostring(serialized_results, pretty_print=True,xml_declaration=True),content_type='application/xml')
+    #return HttpResponse(etree.tostring(osm_results, pretty_print=True,xml_declaration=True),content_type='text/html')
+    if format == 'rss':
+        return HttpResponse(etree.tostring(open_search(osm_results), pretty_print=True,xml_declaration=True),content_type='application/xml')
+    else:
+    	return render_to_response('search.html', {"data": osm_results},
+        	mimetype="text/html")
