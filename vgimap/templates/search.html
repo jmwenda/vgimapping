@@ -1,0 +1,16 @@
+<html>
+<head/>
+<body>
+<h3>Search Results</h3>
+{% for node in data %}
+{{ node }}<br/>
+{{ node.type }}<br/>
+{{ node.data.lat }}<br/>
+{{ node.data.lon }}<br/>
+{% for k,v in node.data.tag.items %}
+{{ k }}:{{ v }}<br/>
+{% endfor %}
+<br/><br/>
+{% endfor %}
+</body>
+</html>
