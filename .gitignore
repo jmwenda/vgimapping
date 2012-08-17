@@ -3,3 +3,6 @@ myenv
 .pyc
 *.db
 *.pyc
+
+VGIMap.egg-info/
+static/
