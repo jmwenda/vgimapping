@@ -17,6 +17,8 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
+    url(r'^$',  direct_to_template,
+    	{ 'template': 'index.html',}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^wfs/?', WFS.as_view(
         models=[m.Event, m.UshahidiReport, m.TwitterTweet, m.TwitterPlace], # everything but this is optional.
@@ -25,5 +27,5 @@ urlpatterns = patterns('',
     url(r'^ushahidi_wfs/?', WFS.as_view(adapter=UshahidiWFSAdapter())),
     #url(r'^search/', include('haystack.urls')),
     url(r'^search/','vgimap.services.views.search'),
-    url(r'^opensearch/','vgimap.services.views.opensearch')
+    url(r'^opensearch/','vgimap.services.views.opensearch', name="opensearch")
 )
