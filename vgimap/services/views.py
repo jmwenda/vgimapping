@@ -2,6 +2,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import Context, loader
+from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 from vgimap.services.models import Service
 import OsmApi
 import math
@@ -152,29 +154,34 @@ def search_ushahidi(search_criteria):
     return data
  
 
+@csrf_exempt
 def search(request):
-    search_criteria = {}
-    search_criteria ['search_term'] = request.GET.get('q', '')
-    search_criteria ['bbox'] = request.GET.get('bbox')
-    search_criteria ['radius'] = request.GET.get('radius')
-    search_criteria ['lat'] = request.GET.get('lat')
-    search_criteria ['lon'] = request.GET.get('lon')
-    if 'format' in request.GET:
-        format = request.GET.get('format')
-    else:
-        format = None
-    #perfrom search and return results set from the different services
-    osm_results = search_osm(search_criteria)
-    #perform search results for ushahidi
-    #ushahidi_results = search_ushahidi(search_criteria)
-    #serialized_results = serialize(ushahidi_results)
-    #serialized_results = etree.fromstring(serialized_results)
-    #we get a json dataset that needs to be made into opengeosearch capable
-    #return HttpResponse(etree.tostring(osm_results, pretty_print=True,xml_declaration=True))
-    #return HttpResponse(etree.tostring(serialized_results, pretty_print=True,xml_declaration=True),content_type='application/xml')
-    #return HttpResponse(etree.tostring(osm_results, pretty_print=True,xml_declaration=True),content_type='text/html')
-    if format == 'rss':
-        return HttpResponse(etree.tostring(open_search(osm_results), pretty_print=True,xml_declaration=True),content_type='application/xml')
-    else:
-    	return render_to_response('search.html', {"data": osm_results},
-        	mimetype="text/html")
+    if request.method == 'GET':
+        return render_to_response("search.html",
+                                  RequestContext(request, {}))
+    elif request.method == 'POST':    
+        search_criteria = {}
+        search_criteria ['search_term'] = request.POST.get('q', '')
+        search_criteria ['bbox'] = request.POST.get('bbox')
+        search_criteria ['radius'] = request.POST.get('radius')
+        search_criteria ['lat'] = request.POST.get('lat')
+        search_criteria ['lon'] = request.POST.get('lon')
+        if 'format' in request.POST:
+            format = request.POST.get('format')
+        else:
+            format = None
+        #perfrom search and return results set from the different services
+        osm_results = search_osm(search_criteria)
+        #perform search results for ushahidi
+        #ushahidi_results = search_ushahidi(search_criteria)
+        #serialized_results = serialize(ushahidi_results)
+        #serialized_results = etree.fromstring(serialized_results)
+        #we get a json dataset that needs to be made into opengeosearch capable
+        #return HttpResponse(etree.tostring(osm_results, pretty_print=True,xml_declaration=True))
+        #return HttpResponse(etree.tostring(serialized_results, pretty_print=True,xml_declaration=True),content_type='application/xml')
+        #return HttpResponse(etree.tostring(osm_results, pretty_print=True,xml_declaration=True),content_type='text/html')
+        if format == 'rss':
+            return HttpResponse(etree.tostring(open_search(osm_results), pretty_print=True,xml_declaration=True),content_type='application/xml')
+        else:
+    	    return render_to_response('search.html', {"data": osm_results},
+        	    mimetype="text/html")

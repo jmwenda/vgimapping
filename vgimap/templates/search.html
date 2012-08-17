@@ -1,6 +1,11 @@
 <html>
 <head/>
 <body>
+<form action='.' method='POST'>
+{% csrf_token %}
+<input type='text' name='q'>
+<input type='submit' name 'Search'>
+</form>
 <h3>Search Results</h3>
 {% for node in data %}
 {{ node }}<br/>

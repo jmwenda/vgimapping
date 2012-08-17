@@ -3,7 +3,7 @@
                        xmlns:moz="<span class="nowiki">http://www.mozilla.org/2006/browser/search/</span>">  
 <ShortName><strong>VGIMap</strong></ShortName>
 <Description><strong>VGI Mapping Service</strong></Description>
-<Url type="text/html" method="GET" template="http://vgi.dev.opengeo.org/search/?q={searchTerms}&amp;pw={startPage?}&amp;format=html"/>
+<Url type="text/html" method="POST" template="http://vgi.dev.opengeo.org/search/?q={searchTerms}&amp;pw={startPage?}&amp;format=html"/>
 <Url type="application/rss+xml" template="http://vgi.dev.opengeo.org/search/?q={searchTerms}&amp;pw={startPage?}&amp;format=rss"/>
 <Url type="application/atom+xml" template="http://vgi.dev.opengeo.org/search/?q={searchTerms}&amp;pw={startPage?}&amp;format=atom"/>
 </OpenSearchDescription>
