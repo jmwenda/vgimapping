@@ -67,6 +67,11 @@ def get_boundingbox(lat,lon,radius):
     minLat = lat - rad2deg(radius/earth_radius);
     maxLon = lon + rad2deg(radius/earth_radius/math.cos(deg2rad(lat)));
     minLon = lon - rad2deg(radius/earth_radius/math.cos(deg2rad(lat)));
+    minLat = round(minLat,6)
+    minLon = round(minLon,6)
+    maxLat = round(maxLat,6)
+    maxLon = round(maxLat,6)
+    bbox = str(minLat) + ',' + str(minLon) +',' + str(maxLat) +',' +str(maxLon)
     return bbox
 
 def search_osm(search_criteria):
@@ -77,8 +82,8 @@ def search_osm(search_criteria):
         #need to confirm a coulpe of aspects about this,especially radius querying
         fetch_path = "/api/interpreter?data=node[name~'"+ search_criteria['search_term']+"'](around:"+ search_criteria['radius']+");out;"
         if search_criteria['lat'] and search_criteria['lon'] is not None:
-            bbox = get_boundingbox(search_criteria['lat'],search_criteria['lon'],search_criteria['radius']) 
-            fetch_path = "/api/interpreter?data=node[name~'"+ search_criteria['search_term']+"'](around:"+ bbox +");out;"
+            bbox = get_boundingbox(float(search_criteria['lat']),float(search_criteria['lon']),float(search_criteria['radius']))
+            fetch_path = "/api/interpreter?data=node[name~'"+ search_criteria['search_term']+"']("+ bbox +");out;"
     else:
         fetch_path = "/api/interpreter?data=node[name~'"+ search_criteria['search_term']+"'];out;"
     url = urllib.quote(fetch_path,'?/=')
@@ -141,10 +146,17 @@ def search_ushahidi(search_criteria):
     #todo confirm if we are searching against all ushahidi instances registered as services
     service = Service.objects.get(type='USH')
     if search_criteria['bbox'] is not None:
-        #bbox_list = re.sub(r'\s', '', search_criteria['bbox']).split(',')
+        bbox_list = re.sub(r'\s', '', search_criteria['bbox']).split(',')
         sw = bbox_list[1]+','+bbox_list[0]
         ne = bbox_list[3]+','+bbox_list[2] 
         url = urljoin(service.url,'api?task=incidents&by=bounds&sw='+ sw + '&ne='+ne+'&c')
+    elif search_criteria['radius'] is not None:
+        if search_criteria['lat'] and search_criteria['lon'] is not None:
+            bbox = get_boundingbox(float(search_criteria['lat']),float(search_criteria['lon']),float(search_criteria['radius']))
+            bbox_list = re.sub(r'\s', '', bbox).split(',')
+            sw = bbox_list[0]+','+bbox_list[1]
+            ne = bbox_list[2]+','+bbox_list[3]
+            url = urljoin(service.url,'api?task=incidents&by=bounds&sw='+ sw + '&ne='+ne+'&c')
     else:
         url = urljoin(service.url,'api?task=incidents')
 
@@ -173,7 +185,7 @@ def search(request):
         #perfrom search and return results set from the different services
         osm_results = search_osm(search_criteria)
         #perform search results for ushahidi
-        #ushahidi_results = search_ushahidi(search_criteria)
+        ushahidi_results = search_ushahidi(search_criteria)
         #serialized_results = serialize(ushahidi_results)
         #serialized_results = etree.fromstring(serialized_results)
         #we get a json dataset that needs to be made into opengeosearch capable
