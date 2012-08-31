@@ -1,16 +1,20 @@
 """
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
+Simple tests for the VGI services available
 """
 
 from django.test import TestCase
+from django.test.client import Client
 
-
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+class ServiceTest(TestCase):
+    def test_index(self):
+        resp = self.client.get('/')
+        self.assertEqual(resp.status_code, 200)
+    def test_search(self):
+        resp = self.client.get('/search/')
+        self.assertEqual(resp.status_code,200)
+    def test_wfs(self):
+        resp = self.client.get('/wfs')
+        self.assertEqual(resp.status_code,200)
+    def test_twitterwfs(self):
+        resp = self.client.get('/twitter_wfs')
+        self.assertEqual(resp.status_code,200)
