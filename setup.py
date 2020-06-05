@@ -57,7 +57,7 @@ setup(name='VGIMap',
       install_requires=[
         "lxml",
         # python dependencies
-        "Django==1.4",
+        "Django==1.11.29",
         # testing
         "django-nose",
         "nose>=1.0",
