@@ -1,4 +1,4 @@
-Django==1.4
+Django==2.2.24
 -e git://github.com/JeffHeard/ga_ows.git#egg=ga_ows-dev
 lxml==2.3.4
 psycopg2==2.4.5
