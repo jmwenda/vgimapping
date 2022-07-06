@@ -1,6 +1,6 @@
 Django==1.4
 -e git://github.com/JeffHeard/ga_ows.git#egg=ga_ows-dev
-lxml==2.3.4
+lxml==4.9.1
 psycopg2==2.4.5
 wsgiref==0.1.2
 requests
